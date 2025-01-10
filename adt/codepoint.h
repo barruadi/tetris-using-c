@@ -1,7 +1,7 @@
 #ifndef CODEPOINT_H
 #define CODEPOINT_H
 
-#include "boolean.h"
+#include "../utils/boolean.h"
 #include "string.h"
 #include <stddef.h>
 
