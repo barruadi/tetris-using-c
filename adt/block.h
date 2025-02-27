@@ -18,6 +18,7 @@ typedef enum {
 
 typedef struct {
     int shape[4][4];
+    int color;
 } BlockShape;
 
 const BlockShape BLOCK_SHAPES[] = {
@@ -27,7 +28,8 @@ const BlockShape BLOCK_SHAPES[] = {
             {0, 1, 1, 0},
             {0, 1, 1, 0},
             {0, 0, 0, 0}
-        }
+        },
+        .color = 0x00FF00
     },
     [I_BLOCK] = {
         .shape = {
@@ -35,7 +37,8 @@ const BlockShape BLOCK_SHAPES[] = {
             {1, 1, 1, 1},
             {0, 0, 0, 0},
             {0, 0, 0, 0}
-        }
+        },
+        .color = 0x00FF00
     },
     [S_BLOCK] = {
         .shape = {
@@ -43,7 +46,8 @@ const BlockShape BLOCK_SHAPES[] = {
             {0, 1, 1, 0},
             {1, 1, 0, 0},
             {0, 0, 0, 0}
-        }
+        },
+        .color = 0x00FF00
     },
     [Z_BLOCK] = {
         .shape = {
@@ -51,7 +55,8 @@ const BlockShape BLOCK_SHAPES[] = {
             {1, 1, 0, 0},
             {0, 1, 1, 0},
             {0, 0, 0, 0}
-        }
+        },
+        .color = 0x00FF00
     },
     [L_BLOCK] = {
         .shape = {
@@ -59,7 +64,8 @@ const BlockShape BLOCK_SHAPES[] = {
             {1, 1, 1, 0},
             {1, 0, 0, 0},
             {0, 0, 0, 0}
-        }
+        },
+        .color = 0x00FF00
     },
     [J_BLOCK] = {
         .shape = {
@@ -67,7 +73,8 @@ const BlockShape BLOCK_SHAPES[] = {
             {1, 1, 1, 0},
             {0, 0, 1, 0},
             {0, 0, 0, 0}
-        }
+        },
+        .color = 0x00FF00
     },
     [T_BLOCK] = {
         .shape = {
@@ -75,7 +82,8 @@ const BlockShape BLOCK_SHAPES[] = {
             {1, 1, 1, 0},
             {0, 1, 0, 0},
             {0, 0, 0, 0}
-        }
+        },
+        .color = 0x00FF00
     }
 };
 
