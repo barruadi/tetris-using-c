@@ -16,10 +16,21 @@ typedef enum {
     T_BLOCK
 } BlockType;
 
+typedef enum {
+    BLOCK_SUCCESS = 0,
+    BLOCK_ERR_INVALID_TYPE = 1,
+    BLOCK_ERR_NULL_POINTER = 2
+} BlockErrno;
+
 typedef struct {
-    int shape[4][4];
-    int color;
+    uint8_t shape[4][4];
+    uint32_t color;
 } BlockShape;
+
+typedef struct {
+    BlockShape shape;
+    uint8_t position[4][2];
+} Block;
 
 const BlockShape BLOCK_SHAPES[] = {
     [O_BLOCK] = {
@@ -86,5 +97,23 @@ const BlockShape BLOCK_SHAPES[] = {
         .color = 0x00FF00
     }
 };
+
+BlockShape block_shape(BlockType type);
+
+BlockType block_random_type();
+
+// void print_block(BlockShape block);
+
+BlockErrno block_set_position(Block *block, uint8_t position[4][2]);
+
+BlockErrno block_rotate(Block *block);
+
+BlockErrno block_move_left(Block *block);
+
+BlockErrno block_move_right(Block *block);
+
+BlockErrno block_move_down(Block *block);
+
+void block_get_position(Block block);
 
 #endif

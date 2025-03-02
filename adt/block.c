@@ -4,21 +4,129 @@ BlockShape block_shape(BlockType type) {
     return BLOCK_SHAPES[type];
 }
 
-// BlockType block_random_type() {
-//     return rand() % 7;
-// }
+BlockType block_random_type() {
+    return rand() % 7;
+}
 
-void print_block(BlockShape block) {
+void print_block_shape(BlockShape block) {
     for (int i = 0; i < 4; i++) {
         for (int j = 0; j < 4; j++) {
             printf("%d ", block.shape[i][j]);
         }
         printf("\n");
     }
-    printf("%d", block.color);
+    printf("%d\n", block.color);
+}
+
+void print_block_state(Block block) {
+    for (int i = 0; i < 4; i++) {
+        for (int j = 0; j < 4; j++) {
+            printf("%d ", block.shape.shape[i][j]);
+        }
+        printf("\n");
+    }
+}
+
+BlockErrno block_set_position(Block *block, uint8_t position[4][2]) {
+    if (block == NULL) {
+        return BLOCK_ERR_NULL_POINTER;
+    }
+
+    for (uint8_t i = 0; i < 4; i++) {
+        block->position[i][0] = position[i][0];
+        block->position[i][1] = position[i][1];
+    }
+
+    return BLOCK_SUCCESS;
+}
+
+BlockErrno block_rotate(Block *block) {
+    if (block == NULL) {
+        return BLOCK_ERR_NULL_POINTER;
+    }
+
+    // Rotate positions
+    uint8_t new_position[4][2];
+    for (uint8_t i = 0; i < 4; i++) {
+        new_position[i][0] = block->position[i][1];
+        new_position[i][1] = 3 - block->position[i][0];
+    }
+
+    // Rotate shape array
+    uint8_t new_shape[4][4];
+    for (int i = 0; i < 4; i++) {
+        for (int j = 0; j < 4; j++) {
+            new_shape[j][3-i] = block->shape.shape[i][j];
+        }
+    }
+    
+    // Update shape array
+    for (int i = 0; i < 4; i++) {
+        for (int j = 0; j < 4; j++) {
+            block->shape.shape[i][j] = new_shape[i][j];
+        }
+    }
+
+    return block_set_position(block, new_position);
+}
+
+BlockErrno block_move_left(Block *block) {
+    if (block == NULL) {
+        return BLOCK_ERR_NULL_POINTER;
+    }
+
+    for (uint8_t i = 0; i < 4; i++) {
+        block->position[i][1]--;
+    }
+
+    return BLOCK_SUCCESS;
+}
+
+BlockErrno block_move_right(Block *block) {
+    if (block == NULL) {
+        return BLOCK_ERR_NULL_POINTER;
+    }
+
+    for (uint8_t i = 0; i < 4; i++) {
+        block->position[i][1]++;
+    }
+
+    return BLOCK_SUCCESS;
+}
+
+BlockErrno block_move_down(Block *block) {
+    if (block == NULL) {
+        return BLOCK_ERR_NULL_POINTER;
+    }
+
+    for (uint8_t i = 0; i < 4; i++) {
+        block->position[i][0]++;
+    }
+
+    return BLOCK_SUCCESS;
+}
+
+void block_get_position(Block block) {
+    for (uint8_t i = 0; i < 4; i++) {
+        printf("(%d, %d)\n", block.position[i][0], block.position[i][1]);
+    }
 }
 
 // driver
 int main() {
-    print_block(block_shape(O_BLOCK));
+    print_block_shape(block_shape(I_BLOCK));
+    Block block = {
+        .shape = block_shape(I_BLOCK),
+        .position = {
+            {0, 0},
+            {0, 1},
+            {0, 2},
+            {0, 3}
+        }
+    };
+    print_block_state(block);
+    block_rotate(&block);
+    block_get_position(block);
+    print_block_state(block);
+    return 0;
 };
