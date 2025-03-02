@@ -6,6 +6,9 @@
 #ifndef BLOCK_H
 #define BLOCK_H
 
+#define BLOCK_WIDTH 4
+#define BLOCK_HEIGHT 4
+
 typedef enum {
     O_BLOCK, 
     I_BLOCK, 
@@ -23,7 +26,7 @@ typedef enum {
 } BlockErrno;
 
 typedef struct {
-    uint8_t shape[4][4];
+    uint8_t shape[BLOCK_HEIGHT][BLOCK_WIDTH];
     uint32_t color;
 } BlockShape;
 
@@ -32,77 +35,15 @@ typedef struct {
     uint8_t position[4][2];
 } Block;
 
-const BlockShape BLOCK_SHAPES[] = {
-    [O_BLOCK] = {
-        .shape = {
-            {0, 0, 0, 0},
-            {0, 1, 1, 0},
-            {0, 1, 1, 0},
-            {0, 0, 0, 0}
-        },
-        .color = 0x00FF00
-    },
-    [I_BLOCK] = {
-        .shape = {
-            {0, 0, 0, 0},
-            {1, 1, 1, 1},
-            {0, 0, 0, 0},
-            {0, 0, 0, 0}
-        },
-        .color = 0x00FF00
-    },
-    [S_BLOCK] = {
-        .shape = {
-            {0, 0, 0, 0},
-            {0, 1, 1, 0},
-            {1, 1, 0, 0},
-            {0, 0, 0, 0}
-        },
-        .color = 0x00FF00
-    },
-    [Z_BLOCK] = {
-        .shape = {
-            {0, 0, 0, 0},
-            {1, 1, 0, 0},
-            {0, 1, 1, 0},
-            {0, 0, 0, 0}
-        },
-        .color = 0x00FF00
-    },
-    [L_BLOCK] = {
-        .shape = {
-            {0, 0, 0, 0},
-            {1, 1, 1, 0},
-            {1, 0, 0, 0},
-            {0, 0, 0, 0}
-        },
-        .color = 0x00FF00
-    },
-    [J_BLOCK] = {
-        .shape = {
-            {0, 0, 0, 0},
-            {1, 1, 1, 0},
-            {0, 0, 1, 0},
-            {0, 0, 0, 0}
-        },
-        .color = 0x00FF00
-    },
-    [T_BLOCK] = {
-        .shape = {
-            {0, 0, 0, 0},
-            {1, 1, 1, 0},
-            {0, 1, 0, 0},
-            {0, 0, 0, 0}
-        },
-        .color = 0x00FF00
-    }
-};
+extern const BlockShape BLOCK_SHAPES[];
 
 BlockShape block_shape(BlockType type);
 
 BlockType block_random_type();
 
-// void print_block(BlockShape block);
+void print_block_shape(BlockShape block);
+
+void print_block_state(Block block);
 
 BlockErrno block_set_position(Block *block, uint8_t position[4][2]);
 
