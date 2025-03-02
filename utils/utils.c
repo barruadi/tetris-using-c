@@ -30,3 +30,27 @@ InputKeyErrno utils_get_key_press(char *key) {
     }
     return INPUT_KEY_ERR_NO_KEY;
 }
+
+InputKeyErrno utils_disable_raw_mode() {
+    struct termios raw;
+    tcgetattr(STDIN_FILENO, &raw);
+    raw.c_lflag |= (ECHO | ICANON);
+    tcsetattr(STDIN_FILENO, TCSAFLUSH, &raw);
+    return INPUT_KEY_SUCCESS;
+}
+
+// driver
+int main() {
+    char key;
+    utils_enable_raw_mode();
+    while (1) {
+        if (utils_get_key_press(&key) == INPUT_KEY_SUCCESS) {
+            printf("%c", key);
+            if (key == 'q') {
+                break;
+            }
+        }
+    }
+    utils_disable_raw_mode();
+    return 0;
+}
